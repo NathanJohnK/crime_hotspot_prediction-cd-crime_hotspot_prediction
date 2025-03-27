@@ -5,9 +5,6 @@ import pandas as pd
 #Convert Data to a DataFrame
 ## Save the Data as CSV
 
-response = requests.get("https://data.police.uk/docs/method/crime-street/")
-print(f"it works, as indicated by, {response}")
-
 def fetch_crime_data(lat, lng, date):
     url = f"https://data.police.uk/api/crimes-street/all-crime?date={date}&lat={lat}&lng={lng}"
     response = requests.get(url)
@@ -31,4 +28,6 @@ if __name__ == "__main__":
     if crime_data:
         df = pd.DataFrame(crime_data)
         print(df.head())
+        
+        
         
