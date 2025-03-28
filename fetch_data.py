@@ -2,12 +2,6 @@ import requests
 import pandas as pd
 import time
 
-
-
-## API request
-#Convert Data to a DataFrame
-## Save the Data as CSV
-
 def fetch_crime_data(lat, lng, date):
     url = f"https://data.police.uk/api/crimes-street/all-crime?date={date}&lat={lat}&lng={lng}"
     response = requests.get(url)
@@ -41,7 +35,10 @@ locations = [
 ]
 
 # Define the date range (last 3 months as an example)
-dates = ["2024-01", "2024-02", "2024-03"]
+dates = [
+    "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
+    "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"
+]
 
 # Store results in a list
 all_crime_data = []
@@ -56,7 +53,14 @@ for lat, lng in locations:
         time.sleep(1)  # Prevent overloading the API
 
 # Convert to DataFrame
-df = pd.DataFrame(all_crime_data)
+# df = pd.DataFrame(all_crime_data)
+
+def convert_to_df(all_crime_data):
+    df = pd.DataFrame(all_crime_data)
+    return df
+    
+# Call the function to convert the data to a DataFrame
+df = convert_to_df(all_crime_data)
 
 # Display results
 print(df.info())

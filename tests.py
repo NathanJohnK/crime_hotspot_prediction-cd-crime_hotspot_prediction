@@ -1,8 +1,9 @@
 import unittest
 from unittest.mock import patch
 import requests
-from fetch_data import fetch_crime_data  # Import the function from your script
+from fetch_data import fetch_crime_data   # Import the function from your script
 import pandas as pd
+from fetch_data import convert_to_df
 
 
 def test_fetch_crime_data():
@@ -46,3 +47,22 @@ def test_dataframe_creation():
     
     # Check if the DataFrame is not empty
     assert not df.empty, "The DataFrame is empty"
+    
+    #check that
+    
+    ### tests for pre process
+def test_df_conversion():
+    
+    all_crime_data = [
+        {'id': 1, 'crime': 'Robbery', 'location': 'Street', 'lat': 52.629729, 'lng': -1.131592, 'date': '2024-01'},
+        {'id': 2, 'crime': 'Burglary', 'location': 'Home', 'lat': 52.629729, 'lng': -1.131592, 'date': '2024-01'},
+    ]
+    
+    df = convert_to_df(all_crime_data)
+        # Check if the DataFrame is created correctly
+    
+    assert isinstance(df, pd.DataFrame), "The data is not a DataFrame"
+        # Check if the DataFrame is not empty
+    assert not df.empty, "The DataFrame is empty"
+
+    
