@@ -7,7 +7,7 @@ def fetch_crime_data(lat, lng, date):
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
-        
+
     else:
         print(f"Error fetching data. Status code: {response.status_code}")
         return None
@@ -44,9 +44,6 @@ dates = ["2024-01"]
   #  "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
   #  "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"
 #]
-
-
-
 
 # Store results in a list
 all_crime_data = []
