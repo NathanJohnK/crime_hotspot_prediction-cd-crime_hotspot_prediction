@@ -1,17 +1,35 @@
 import requests
 import pandas as pd
 import time
+import os 
+import json
 
 def fetch_crime_data(lat, lng, date):
+    filename = f"crime_{lat}_{lng}_{date}.json"
+    
+    # If file already exists, load from disk
+    if os.path.exists(filename):
+        print(f"Loading cached data from {filename}")
+        with open(filename, 'r') as f:
+            data = json.load(f)
+        return data
+
+    # Otherwise, fetch from API
+    print(f"Fetching data from API for {lat}, {lng} on {date}")
     url = f"https://data.police.uk/api/crimes-street/all-crime?date={date}&lat={lat}&lng={lng}"
     response = requests.get(url)
+    
     if response.status_code == 200:
-        return response.json()
-
+        data = response.json()
+        # Save to local JSON
+        with open(filename, 'w') as f:
+            json.dump(data, f)
+        return data
     else:
         print(f"Error fetching data. Status code: {response.status_code}")
         return None
-    
+
+
 # Example usage: Fetch crime data for a specific location and date
 if __name__ == "__main__":
     lat = 52.629729  # Latitude for the location (e.g., Nottingham, UK)
@@ -60,31 +78,31 @@ for lat, lng in locations:
 # Convert to DataFrame
 # df = pd.DataFrame(all_crime_data)
 
+print(crime_data[0])
+print(type(crime_data[0]))
+
 # Flattening the 'location' and 'outcome_status' dictionaries
-for record in crime_data:
-    record['latitude'] = record['location']['latitude']
-    record['longitude'] = record['location']['longitude']
-    del record['location']  # Remove the original nested 'location' dictionary
+# Flatten the nested fields
+for record in all_crime_data:
+    location = record.get('location', {})
+    record['latitude'] = location.get('latitude', None)
+    record['longitude'] = location.get('longitude', None)
+    record.pop('location', None)
     
-    # Flatten outcome_status
-    # Flatten outcome_status
-if 'outcome_status' in record and record['outcome_status'] is not None:
-    record['outcome_category'] = record['outcome_status']['category']
-    record['outcome_date'] = record['outcome_status']['date']
-    del record['outcome_status']  # Remove the original nested 'outcome_status'
-else:
-    # Handle the case where 'outcome_status' is missing or None
-    record['outcome_category'] = 'Unknown'
-    record['outcome_date'] = 'Unknown'
+    outcome = record.get('outcome_status')
+    if outcome:
+        record['outcome_category'] = outcome.get('category', 'Unknown')
+        record['outcome_date'] = outcome.get('date', 'Unknown')
+    else:
+        record['outcome_category'] = 'Unknown'
+        record['outcome_date'] = 'Unknown'
+    record.pop('outcome_status', None)
 
-def convert_to_df(all_crime_data):
-    df = pd.DataFrame(all_crime_data)
-    return df
-    
-# Call the function to convert the data to a DataFrame
-df = convert_to_df(all_crime_data)
+# Convert to DataFrame
+df = pd.DataFrame(all_crime_data)
+print(df.head())
 
-# Display results
-#print(df.head)
+os.makedirs("data", exist_ok=True)  # Creates the folder if it doesn't exist
+df.to_csv("data/flattened_crime_data.csv", index=False)
 
 
