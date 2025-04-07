@@ -4,18 +4,21 @@ import time
 import os 
 import json
 
+from imports import *
+
+
 def fetch_crime_data(lat, lng, date):
     filename = f"crime_{lat}_{lng}_{date}.json"
     
     # If file already exists, load from disk
     if os.path.exists(filename):
-        print(f"Loading cached data from {filename}")
+        #print(f"Loading cached data from {filename}")
         with open(filename, 'r') as f:
             data = json.load(f)
         return data
 
     # Otherwise, fetch from API
-    print(f"Fetching data from API for {lat}, {lng} on {date}")
+    #print(f"Fetching data from API for {lat}, {lng} on {date}")
     url = f"https://data.police.uk/api/crimes-street/all-crime?date={date}&lat={lat}&lng={lng}"
     response = requests.get(url)
     
@@ -26,7 +29,7 @@ def fetch_crime_data(lat, lng, date):
             json.dump(data, f)
         return data
     else:
-        print(f"Error fetching data. Status code: {response.status_code}")
+        #print(f"Error fetching data. Status code: {response.status_code}")
         return None
 
 
@@ -40,8 +43,8 @@ if __name__ == "__main__":
     crime_data = fetch_crime_data(lat, lng, date)
     
     # If data is fetched successfully, print the first 5 results
-    if crime_data:
-      print(crime_data[0])
+    #if crime_data:
+      #print(crime_data[0])
     
     #if crime_data:
       #  df = pd.DataFrame(crime_data)
@@ -69,7 +72,7 @@ all_crime_data = []
 # Fetch data for each location and date
 for lat, lng in locations:
     for date in dates:
-        print(f"Fetching data for {lat}, {lng} on {date}...")
+        #print(f"Fetching data for {lat}, {lng} on {date}...")
         crime_data = fetch_crime_data(lat, lng, date)
         if crime_data:
             all_crime_data.extend(crime_data)  # Append results to the list

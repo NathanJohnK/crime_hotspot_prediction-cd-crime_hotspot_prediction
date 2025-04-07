@@ -5,3 +5,4 @@ df = pd.read_csv("data/flattened_crime_data.csv")
 df = df.sort_values(by=["category", "location_type"])
 print(df.head(10))
 
+df.describe()
