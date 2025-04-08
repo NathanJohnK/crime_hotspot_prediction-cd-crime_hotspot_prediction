@@ -64,3 +64,5 @@ def test_df_conversion():
     assert isinstance(df, pd.DataFrame), "The data is not a DataFrame"
         # Check if the DataFrame is not empty
     assert not df.empty, "The DataFrame is empty"
+
+###test to check df copied correctly 
