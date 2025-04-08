@@ -53,18 +53,16 @@ if __name__ == "__main__":
 # Define multiple locations (a simple grid of points)
 locations = [
     (52.629729, -1.131592),  # Nottingham
-   # (51.5074, -0.1278),  # London
-   # (53.483959, -2.244644),  # Manchester
-    #(55.9533, -3.1883),  # Edinburgh
+    (51.5074, -0.1278),  # London
+    (53.483959, -2.244644),  # Manchester
+    (55.9533, -3.1883),  # Edinburgh
 ]
 
 # Define the date range (last 3 months as an example)
-dates = ["2024-01"]
-
-#dates = [
-  #  "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
-  #  "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"
-#]
+dates = [
+    "2024-01", "2024-02", "2024-03", "2024-04", "2024-05", "2024-06",
+    "2024-07", "2024-08", "2024-09", "2024-10", "2024-11", "2024-12"
+]
 
 # Store results in a list
 all_crime_data = []

@@ -3,7 +3,9 @@ from unittest.mock import patch
 import requests
 from fetch_data import fetch_crime_data   # Import the function from your script
 import pandas as pd
-from fetch_data import convert_to_df
+#from fetch_data import convert_to_df
+from preprocess import df_original 
+from preprocess import df_clean
 
 
 def test_fetch_crime_data():
@@ -51,18 +53,15 @@ def test_dataframe_creation():
     #check that
     
     ### tests for pre process
-def test_df_conversion():
-    
-    all_crime_data = [
-        {'id': 1, 'crime': 'Robbery', 'location': 'Street', 'lat': 52.629729, 'lng': -1.131592, 'date': '2024-01'},
-        {'id': 2, 'crime': 'Burglary', 'location': 'Home', 'lat': 52.629729, 'lng': -1.131592, 'date': '2024-01'},
-    ]
-    
-    df = convert_to_df(all_crime_data)
-        # Check if the DataFrame is created correctly
-    
-    assert isinstance(df, pd.DataFrame), "The data is not a DataFrame"
-        # Check if the DataFrame is not empty
-    assert not df.empty, "The DataFrame is empty"
 
-###test to check df copied correctly 
+###test to check df copied correctly
+
+def test_df_is_not_empty():
+    assert isinstance(df_clean, pd.DataFrame), "The data is not a DataFrame"
+    assert not df_clean.empty, 'df empty'
+
+def test_dataframe_copy():
+    df_original = pd.read_csv("data/flattened_crime_data.csv")
+    df_clean = df_original.copy()
+    
+    assert df_original.equals(df_clean), "The copied dataframe should be identical to the original"
