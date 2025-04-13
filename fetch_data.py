@@ -12,13 +12,12 @@ def fetch_crime_data(lat, lng, date):
     
     # If file already exists, load from disk
     if os.path.exists(filename):
-        #print(f"Loading cached data from {filename}")
+        
         with open(filename, 'r') as f:
             data = json.load(f)
         return data
 
     # Otherwise, fetch from API
-    #print(f"Fetching data from API for {lat}, {lng} on {date}")
     url = f"https://data.police.uk/api/crimes-street/all-crime?date={date}&lat={lat}&lng={lng}"
     response = requests.get(url)
     
@@ -29,7 +28,7 @@ def fetch_crime_data(lat, lng, date):
             json.dump(data, f)
         return data
     else:
-        #print(f"Error fetching data. Status code: {response.status_code}")
+        
         return None
 
 
@@ -70,7 +69,6 @@ all_crime_data = []
 # Fetch data for each location and date
 for lat, lng in locations:
     for date in dates:
-        #print(f"Fetching data for {lat}, {lng} on {date}...")
         crime_data = fetch_crime_data(lat, lng, date)
         if crime_data:
             all_crime_data.extend(crime_data)  # Append results to the list
@@ -78,9 +76,6 @@ for lat, lng in locations:
 
 # Convert to DataFrame
 # df = pd.DataFrame(all_crime_data)
-
-print(crime_data[0])
-print(type(crime_data[0]))
 
 # Flattening the 'location' and 'outcome_status' dictionaries
 # Flatten the nested fields
@@ -101,9 +96,12 @@ for record in all_crime_data:
 
 # Convert to DataFrame
 df = pd.DataFrame(all_crime_data)
-print(df.head())
 
 os.makedirs("data", exist_ok=True)  # Creates the folder if it doesn't exist
 df.to_csv("data/flattened_crime_data.csv", index=False)
 
+if not df.empty:
+    print("Data fetched successfully")
+
+print(type(df))
 
