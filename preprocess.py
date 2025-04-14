@@ -8,9 +8,8 @@ df_original = df_original.sort_values(by=["location_type", "latitude", "longitud
 df_clean = df_original.copy()
 
 # Basic exploration
-print(f"Total records (rows): {df_clean.shape[0]}")
-print(f"Total columns: {df_clean.shape[1]}")
-# print(f"First 5 records:\n{df_clean.head(500)}")
+#print(f"Total records (rows): {df_clean.shape[0]}")
+#print(f"Total columns: {df_clean.shape[1]}")
 
 # Get column names
 print(df_clean.columns)
@@ -52,4 +51,60 @@ def location_categorise(latitude, longitude):
 df_clean['City'] = df_clean.apply(lambda row: location_categorise(row['latitude'], row['longitude']), axis=1)
 
 # View output
-print(df_clean[["City", "latitude", "longitude", "location_type", "location_subtype", "id"]].head(20))
+
+
+# Data cleaning
+
+null_mask = df_clean.isnull().any(axis=1)
+null_rows = df_clean[null_mask]
+
+## Drop column which don't add any value as they're null persistent ID
+
+to_drop = ['context', 'persistent_id', 'id']
+
+df_clean.drop(to_drop, inplace=True, axis=1)
+
+#print(Trimmed_df[["City", "latitude", "longitude", "location_type", "location_subtype"]].head(20))
+print(df_clean.head())
+
+df_clean.duplicated().sum()  # count of exact duplicates
+df_clean.drop_duplicates(inplace=True)
+
+df_clean['category'].value_counts()
+df_clean['location_type'].unique()
+df_clean['outcome_category'].value_counts(dropna=False)
+
+df_clean['category'] = df_clean['category'].str.lower().str.strip()
+
+# check and clean lat and long measures
+
+df_clean = df_clean.dropna(subset=['latitude', 'longitude'])
+df_clean = df_clean[(df_clean['latitude'].between(49, 61)) & (df_clean['longitude'].between(-8, 2))]
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
+top_n = 10
+city = "London"
+
+city_df = df_clean[df_clean['City'] == city]
+top_crimes = city_df['category'].value_counts().nlargest(top_n)
+
+# Create a new DataFrame for Seaborn
+plot_df = pd.DataFrame({
+    'category': top_crimes.index,
+    'count': top_crimes.values
+})
+
+plt.figure(figsize=(10, 6))
+sns.barplot(data=plot_df, y='category', x='count', hue='category', palette='viridis', legend=False)
+plt.title(f"Top {top_n} Crimes in {city}")
+plt.xlabel("Number of Incidents")
+plt.ylabel("Crime Type")
+plt.tight_layout()
+plt.show()
+
