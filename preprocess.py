@@ -81,30 +81,9 @@ df_clean['category'] = df_clean['category'].str.lower().str.strip()
 df_clean = df_clean.dropna(subset=['latitude', 'longitude'])
 df_clean = df_clean[(df_clean['latitude'].between(49, 61)) & (df_clean['longitude'].between(-8, 2))]
 
-import matplotlib.pyplot as plt
-import seaborn as sns
+## Saving the data to a csv
+df_clean.to_csv('Cleaned_df.csv', index=False)
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
 
-top_n = 10
-city = "London"
 
-city_df = df_clean[df_clean['City'] == city]
-top_crimes = city_df['category'].value_counts().nlargest(top_n)
-
-# Create a new DataFrame for Seaborn
-plot_df = pd.DataFrame({
-    'category': top_crimes.index,
-    'count': top_crimes.values
-})
-
-plt.figure(figsize=(10, 6))
-sns.barplot(data=plot_df, y='category', x='count', hue='category', palette='viridis', legend=False)
-plt.title(f"Top {top_n} Crimes in {city}")
-plt.xlabel("Number of Incidents")
-plt.ylabel("Crime Type")
-plt.tight_layout()
-plt.show()
 
