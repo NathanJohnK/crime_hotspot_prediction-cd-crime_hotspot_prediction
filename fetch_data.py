@@ -51,10 +51,10 @@ if __name__ == "__main__":
         
 # Define multiple locations (a simple grid of points)
 locations = [
-    (52.629729, -1.131592),  # Nottingham
-    (51.5074, -0.1278),  # London
-    (53.483959, -2.244644),  # Manchester
-    (55.9533, -3.1883),  # Edinburgh
+    (52.9536, -1.15047),  # Nottingham
+    (51.50853, -0.12574),  # London
+    (53.48095, -2.23743),  # Manchester
+    (55.95206, -3.19648),  # Edinburgh
 ]
 
 # Define the date range (last 3 months as an example)
@@ -103,5 +103,4 @@ df.to_csv("data/flattened_crime_data.csv", index=False)
 if not df.empty:
     print("Data fetched successfully")
 
-print(type(df))
 
