@@ -32,38 +32,31 @@ plt.title(f"Top {top_n} Crimes in {city}")
 plt.xlabel("Number of Incidents")
 plt.ylabel("Crime Type")
 plt.tight_layout()
-plt.show()
+#plt.show()
 
 plt.clf()
 
+### to do - make this ^^ into a function
+
 ### Visual to show all crimes in Nottingham
-
-notts_df = Visual_df[Visual_df['City'] == 'Nottingham']
-
-# Filter to Nottingham
-notts_df = Visual_df[Visual_df['City'] == 'Nottingham'].copy()
-
-# Create geometry column
-notts_df['geometry'] = notts_df.apply(lambda row: Point(row['longitude'], row['latitude']), axis=1)
-
-# Convert to GeoDataFrame and set coordinate system (WGS84)
-gdf = gpd.GeoDataFrame(notts_df, geometry='geometry', crs='EPSG:4326')
-
-# Convert to Web Mercator for contextily (tile background)
-gdf = gdf.to_crs(epsg=3857)
-
-fig, ax = plt.subplots(figsize=(10, 10))
-gdf.plot(ax=ax, column='category', legend=True, markersize=10, alpha=0.6)
-
-ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
-ax.set_title("Nottingham Crime Map with Real Basemap")
-plt.axis('off')
-plt.show()
 
 def graphs(city, df):
     
 ### Do sth with df
     
+    city_visual_df = df[df['City'] == city]
+
+    city_visual_df['geometry'] = city_visual_df.apply(lambda row: Point(row['longitude'], row['latitude']), axis=1)
     
-    ## plot show
+    gdf = gpd.GeoDataFrame(city_visual_df, geometry='geometry', crs="EPSG:4326")
+    gdf = gdf.to_crs(epsg=3857)
+
+    fig, ax = plt.subplots(figsize=(10, 10))
+    gdf.plot(ax=ax, column='category', legend=True, markersize=10, alpha=0.6)
+
+    ctx.add_basemap(ax, source=ctx.providers.OpenStreetMap.Mapnik)
+    ax.set_title("Nottingham Crime Map with Real Basemap")
+    plt.axis('off')
+    plt.show()
     
+graphs("Nottingham", Visual_df) 
