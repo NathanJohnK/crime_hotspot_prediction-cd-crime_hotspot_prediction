@@ -11,6 +11,12 @@ import contextily as ctx
 
 Visual_df = pd.read_csv('Cleaned_df.csv')
 
+def top_10_records(city, df):
+    
+    city_visual_df = df[df['City'] == city]
+    
+    #### TBC
+
 notts_df = Visual_df[Visual_df['City'] == 'Nottingham']
 print(notts_df[['latitude', 'longitude']].describe())
 
@@ -34,6 +40,8 @@ plt.ylabel("Crime Type")
 plt.tight_layout()
 #plt.show()
 
+
+## resets the plot
 plt.clf()
 
 ### to do - make this ^^ into a function
