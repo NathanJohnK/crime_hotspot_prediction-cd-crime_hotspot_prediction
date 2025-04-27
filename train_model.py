@@ -1,12 +1,16 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
+from kneed import KneeLocator
+from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import StandardScaler
 
-# Assuming 'Visual_df' is your DataFrame with 'latitude' and 'longitude' columns
+# Assuming 'Visual_df' is DataFrame with 'latitude' and 'longitude' columns
 # Replace this if needed with your actual df
 # Visual_df = pd.read_csv('your_data.csv')
-
 Visual_df = pd.read_csv('Cleaned_df.csv')
 
 # Extract latitude and longitude values from Visual_df
