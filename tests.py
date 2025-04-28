@@ -6,7 +6,7 @@ import pandas as pd
 #from fetch_data import convert_to_df
 from preprocess import df_original 
 from preprocess import df_clean
-
+from train_model import city_for_model
 
 def test_fetch_crime_data():
     lat = 52.629729  # Latitude for the location (e.g., Nottingham, UK)
@@ -63,5 +63,9 @@ def test_df_is_not_empty():
 def test_dataframe_copy():
     df_original = pd.read_csv("data/flattened_crime_data.csv")
     df_clean = df_original.copy()
-    
     assert df_original.equals(df_clean), "The copied dataframe should be identical to the original"
+
+def test_city_returns_filtered_df():
+    Visual_df = pd.read_csv('Cleaned_df.csv')
+    new_df = city_for_model("Nottingham")
+    assert not new_df.equals(Visual_df), "New DataFrame should be different from original"

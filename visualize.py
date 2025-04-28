@@ -13,6 +13,7 @@ import contextily as ctx
 
 # Load the DataFrame
 
+
 Visual_df = pd.read_csv('Cleaned_df.csv')
 
 def top_10_records(city, df):
