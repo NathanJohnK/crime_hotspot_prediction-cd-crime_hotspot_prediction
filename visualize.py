@@ -16,10 +16,8 @@ import contextily as ctx
 Visual_df = pd.read_csv('Cleaned_df.csv')
 
 def top_10_records(city, df):
-    
     city_visual_df = df[df['City'] == city]
     top_n = 10
-    
     city_df = Visual_df[Visual_df['City'] == city]
     top_crimes = city_visual_df['category'].value_counts().nlargest(top_n)
 
@@ -36,8 +34,7 @@ def top_10_records(city, df):
     plt.ylabel("Crime Type")
     plt.tight_layout()
     plt.show()
-    
-#top_10_records("Nottingham", Visual_df)
+# top_10_records("Nottingham", Visual_df)
 
 plt.clf()
 
