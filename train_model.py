@@ -140,3 +140,30 @@ crime_counts = new_df.groupby(['cluster', 'category']).size().unstack(fill_value
 
 # Display the result
 print(crime_counts)
+
+# Total number of crimes per cluster
+
+total_crimes_per_cluster = new_df.groupby('cluster').size().reset_index(name='crime_count')
+
+# Plot
+# plt.figure(figsize=(8, 5))
+# sns.barplot(data=total_crimes_per_cluster, x='cluster', y='crime_count', palette='viridis')
+
+# plt.title('Number of Crimes per Cluster')
+# plt.xlabel('Cluster')
+# plt.ylabel('Crime Count')
+# plt.tight_layout()
+# plt.show()
+
+# Group by cluster and crime type, then count
+crime_counts = new_df.groupby(['cluster', 'category']).size().unstack(fill_value=0)
+
+# Plot grouped bar chart
+crime_counts.plot(kind='bar', stacked=False, figsize=(12, 6), colormap='viridis')
+
+plt.title('Crime Type Distribution per Cluster')
+plt.xlabel('Cluster')
+plt.ylabel('Number of Crimes')
+plt.legend(title='Crime Type', bbox_to_anchor=(1.05, 1), loc='upper left')
+plt.tight_layout()
+plt.show()

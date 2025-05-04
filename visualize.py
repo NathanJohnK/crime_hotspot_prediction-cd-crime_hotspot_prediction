@@ -35,7 +35,9 @@ def top_10_records(city, df):
     plt.ylabel("Crime Type")
     plt.tight_layout()
     plt.show()
-# top_10_records("Nottingham", Visual_df)
+
+
+top_10_records("Nottingham", Visual_df)
 
 plt.clf()
 
