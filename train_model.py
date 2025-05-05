@@ -9,10 +9,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 import seaborn as sns
-import contextily as ctx  # add this if you don't have it yet: pip install contextily
+import contextily as ctx
 import geopandas as gpd
 from shapely.geometry import Point
-
+from sklearn.metrics import calinski_harabasz_score
 
 
 # Assuming 'Visual_df' is DataFrame with 'latitude' and 'longitude' columns
@@ -36,6 +36,7 @@ X = new_df[['latitude', 'longitude']].values
 k = 6  # You can change this number depending on your needs
 
 # Fit the KMeans model
+# Random state is set to 42, to ensure same clusters and repeatable results
 kmeans = KMeans(n_clusters=k, random_state=42)
 kmeans.fit(X)
 
@@ -78,6 +79,16 @@ plt.ylabel('Silhouette Score')
 
 plt.tight_layout()
 #plt.show()
+
+# Test Calinski-Harabasz Index
+
+print(X_scaled)
+
+ch_score = calinski_harabasz_score(X_scaled, labels)
+print(f"Calinski-Harabasz Index: {ch_score}")
+
+
+
 
 # Display the clusters
 #print(Visual_df)
